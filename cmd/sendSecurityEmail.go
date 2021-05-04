@@ -49,14 +49,14 @@ func (a *loginAuth) Next(fromServer []byte, more bool) ([]byte, error) {
 	return nil, nil
 }
 
-func SendWhalingEmail() {
+func SendSecurityEmail(typ string, content string) {
 
 	email := goDotEnvVar("EMAIL_ADDRESS")
 	pass := goDotEnvVar("EMAIL_PASSWORD")
-	senderName := goDotEnvVar("SENDER_NAME")
+	// senderName := goDotEnvVar("SENDER_NAME")
 
 	// Sender data.
-	subject := "Cyber Security... What is Whaling?"
+	// subject := "Cyber Security... What is Whaling?"
 	from := email
 	password := pass
 
@@ -102,26 +102,49 @@ func SendWhalingEmail() {
 		println(err)
 	}
 
-	t, err := template.ParseFiles("cmd/htmlTemplates/whaling.html")
+	// t, err := template.ParseFiles("cmd/htmlTemplates/whaling.html")
+	t, err := template.ParseFiles(content)
 	if err != nil {
 		println(err)
 	}
 
 	var body bytes.Buffer
 
-	mimeHeaders := "MIME-version: 1.0;\nContent-Type: text/html; charset=\"UTF-8\";\n\n"
-	// body.Write([]byte(fmt.Sprintf("Subject: Nowigence Cyber Security... \n%s\n\n", mimeHeaders)))
-	fmt.Println(fmt.Sprintf("%v\n%s\n\n", subject, mimeHeaders))
-	body.Write([]byte(fmt.Sprintf("%s\n%s\n\n", subject, mimeHeaders)))
+	senderName := goDotEnvVar("SENDER_NAME")
+	println(typ)
+	// subject := typ
+
+	switch typ {
+	case "whaling":
+		mimeHeaders := "MIME-version: 1.0;\nContent-Type: text/html; charset=\"UTF-8\";\n\n"
+		body.Write([]byte(fmt.Sprintf("Subject: Cyber Security... What is Whaling? \n%s\n\n", mimeHeaders)))
+	case "phishing":
+		mimeHeaders := "MIME-version: 1.0;\nContent-Type: text/html; charset=\"UTF-8\";\n\n"
+		body.Write([]byte(fmt.Sprintf("Subject: Phishing Awareness. Cyber Security continued... \n%s\n\n", mimeHeaders)))
+	case "ransomware":
+		mimeHeaders := "MIME-version: 1.0;\nContent-Type: text/html; charset=\"UTF-8\";\n\n"
+		body.Write([]byte(fmt.Sprintf("Subject: Cyber Security is Important team! read this and follow the directions. Thanks all \n%s\n\n", mimeHeaders)))
+	case "password":
+		mimeHeaders := "MIME-version: 1.0;\nContent-Type: text/html; charset=\"UTF-8\";\n\n"
+		body.Write([]byte(fmt.Sprintf("Subject: Cyber Security Password tips... \n%s\n\n", mimeHeaders)))
+	default:
+		fmt.Println("Something Wrong with typ switch")
+	}
+	// mimeHeaders := "MIME-version: 1.0;\nContent-Type: text/html; charset=\"UTF-8\";\n\n"
+	// mimeHeaders := fmt.Sprintf("%s \n\n MIME-version: 1.0;\nContent-Type: text/html; charset=\"UTF-8\";\n\n", typ)
+	// body.Write([]byte(fmt.Sprintf("Subject: Cyber Security... What is Whaling? \n%s\n\n", mimeHeaders)))
+	// fmt.Println(fmt.Sprintf("%s", typ) + fmt.Sprintf("\n\n%s", mimeHeaders))
+	// body.Write([]byte(fmt.Sprintf("%s", typ) + fmt.Sprintf("\n\n%s", mimeHeaders)))
+	// body.Write([]byte(mimeHeaders))
 
 	t.Execute(&body, struct {
 		Name    string
 		Message string
 	}{
-		// Name:    "Jon Palacio",
+		// Name: "Jon Palacio",
 		Name: senderName,
-		// Message: "Nowigence Cyper Security...",
-		Message: subject,
+		// Message: "Cyber Security... What is Whaling?",
+		Message: typ,
 	})
 
 	// Sending email.
