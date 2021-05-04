@@ -22,17 +22,12 @@ func (topic Topic) String() string {
 	return topics[topic-1]
 }
 
-// var whalingSubject string = "Cyber Security... What is Whaling?"
-var whalingHTML string = "cmd/htmlTemplates/whaling.html"
-
-// var ransomwareSubject string = "Cyber Security is Important team! read this and follow the directions. Thanks all ; )"
-var ransomwareHTML string = "cmd/htmlTemplates/ransomware.html"
-
-// var phishingSubject string = "Phishing Awareness. Cyber Security continued..."
-var phishingHTML string = "cmd/htmlTemplates/phishing.html"
-
-// var passwordSubject string = "Cyber Security Password tips..."
-var passwordHTML string = "cmd/htmlTemplates/password.html"
+var (
+	whalingHTML    string = "cmd/htmlTemplates/whaling.html"
+	ransomwareHTML string = "cmd/htmlTemplates/ransomware.html"
+	phishingHTML   string = "cmd/htmlTemplates/phishing.html"
+	passwordHTML   string = "cmd/htmlTemplates/password.html"
+)
 
 func WhichSecurityEmail(topic Topic) {
 	switch topic {
