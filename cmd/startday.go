@@ -3,14 +3,16 @@ package cmd
 import (
 	"bufio"
 	"fmt"
+	// "text/template"
+
 	// "io/fs"
 	"log"
 
 	"runtime"
 
+	// _ "embed"
 	"os"
 	"os/exec"
-	// "embed"
 
 	// "github.com/kardianos/osext"
 	"github.com/pkg/browser"
@@ -18,8 +20,10 @@ import (
 	"github.com/spf13/cobra"
 )
 
-//go:embedtabs/*
-// var e embed.FS
+//// go:embed tabs.txt
+// var eTest string
+
+// var e []byte
 
 // startdayCmd represents the startday command
 var startdayCmd = &cobra.Command{
@@ -44,37 +48,22 @@ var startdayCmd = &cobra.Command{
 			}
 		case "linux":
 			println("Linux ; )")
+			// fmt.Println("embed", eTest)
+			// Open the file.
+			// this is not relative to this file. it's the path from the root or the
+			// path from where it will be ran
+			f, err := os.Open("/home/jonathan/go/tabs/tabs.txt")
+			if err != nil {
+				log.Fatal(err)
+			}
+			scanner := bufio.NewScanner(f)
+			for scanner.Scan() {
+				line := scanner.Text()
+				// use browser to Open the url
+				browser.OpenURL(line)
+			}
 		default:
 			fmt.Printf("%s.\n", system)
-		}
-		// Open the file.
-		// this is not relative to this file. it's the path from the root or the
-		// path from where it will be ran
-		// test, err := fs.Sub(e, "tabs.txt")
-		// println("test", test)
-		// data, err := e.ReadFile("/tabs/tabs.txt")
-		// if err != nil {
-		// 	log.Fatal(err)
-		// }
-		// println("data", data)
-		f, err := os.Open("./tabs/tabs.txt")
-
-		// myDirFiles, _ := fs.ReadDir(files, "mydir/subdir")
-		//     for _, cppFile := range myDirFiles {
-		//         fmt.Printf("%q\n", cppFile.Name())
-		//     }
-		// f, err := os.Open(e)
-		if err != nil {
-			log.Fatal(err)
-		}
-		// // Create a new Scanner for the file.
-		scanner := bufio.NewScanner(f)
-		// // Loop over all lines in the file and print them.
-		for scanner.Scan() {
-			line := scanner.Text()
-			// println(line)
-			// use browser to Open the url
-			browser.OpenURL(line)
 		}
 	},
 }
