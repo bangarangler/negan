@@ -1,29 +1,25 @@
-/*
-Copyright © 2021 NAME HERE <EMAIL ADDRESS>
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-*/
 package cmd
 
 import (
 	"bufio"
 	"fmt"
+	// "io/fs"
 	"log"
-	"os"
 
+	"runtime"
+
+	"os"
+	"os/exec"
+	// "embed"
+
+	// "github.com/kardianos/osext"
 	"github.com/pkg/browser"
+	// "github.com/skratchdot/open-golang/open"
 	"github.com/spf13/cobra"
 )
+
+//go:embedtabs/*
+// var e embed.FS
 
 // startdayCmd represents the startday command
 var startdayCmd = &cobra.Command{
@@ -34,18 +30,49 @@ var startdayCmd = &cobra.Command{
 	that I use for work.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println("Good morning JP | I'm opening your tabs for work now.")
+		browser.OpenURL("https://calendar.google.com/calendar/b/1/r?tab=wc")
+		system := runtime.GOOS
+		switch system {
+		case "windows":
+			println("No Thank You, Switch to Linux ; )")
+		case "darwin":
+			println("Running on mac")
+			err := exec.Command("open", "-a", "mailspring").Run()
+			err1 := exec.Command("open", "-a", "slack").Run()
+			if err != nil || err1 != nil {
+				log.Fatal("error", err)
+			}
+		case "linux":
+			println("Linux ; )")
+		default:
+			fmt.Printf("%s.\n", system)
+		}
 		// Open the file.
 		// this is not relative to this file. it's the path from the root or the
 		// path from where it will be ran
+		// test, err := fs.Sub(e, "tabs.txt")
+		// println("test", test)
+		// data, err := e.ReadFile("/tabs/tabs.txt")
+		// if err != nil {
+		// 	log.Fatal(err)
+		// }
+		// println("data", data)
 		f, err := os.Open("./tabs/tabs.txt")
+
+		// myDirFiles, _ := fs.ReadDir(files, "mydir/subdir")
+		//     for _, cppFile := range myDirFiles {
+		//         fmt.Printf("%q\n", cppFile.Name())
+		//     }
+		// f, err := os.Open(e)
 		if err != nil {
 			log.Fatal(err)
 		}
-		// Create a new Scanner for the file.
+		// // Create a new Scanner for the file.
 		scanner := bufio.NewScanner(f)
-		// Loop over all lines in the file and print them.
+		// // Loop over all lines in the file and print them.
 		for scanner.Scan() {
 			line := scanner.Text()
+			// println(line)
 			// use browser to Open the url
 			browser.OpenURL(line)
 		}
