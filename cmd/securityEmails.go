@@ -23,13 +23,17 @@ var securityEmailsCmd = &cobra.Command{
 		println("name", name)
 		switch name {
 		case "whaling":
-			name = "Sending Whaling"
+			// name = "Sending Whaling"
+			WhichSecurityEmail(WHALING)
 		case "phishing":
-			name = "Sending Phishing"
+			// name = "Sending Phishing"
+			WhichSecurityEmail(PHISHING)
 		case "ransomware":
-			name = "Sending Ransomware"
+			// name = "Sending Ransomware"
+			WhichSecurityEmail(RANSOMWARE)
 		case "password":
-			name = "Sending Password"
+			// name = "Sending Password"
+			WhichSecurityEmail(PASSWORD)
 		default:
 			name = "You must select whaling | phishing | ransomware | password"
 		}

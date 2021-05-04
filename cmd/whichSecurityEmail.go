@@ -2,28 +2,38 @@ package cmd
 
 import "fmt"
 
-var Topics = newTopicsInitializer()
+type Topic int
 
-func newTopicsInitializer() *topics {
-	return &topics{
-		Whaling:    "whaling",
-		Phishing:   "phishing",
-		Ransomware: "ransomware",
-		Password:   "password",
-	}
+const (
+	PHISHING Topic = iota
+	WHALING
+	RANSOMWARE
+	PASSWORD
+)
+
+var topics = [...]string{
+	"phishing",
+	"whaling",
+	"ransomware",
+	"password",
 }
 
-type topics struct {
-	Whaling    string
-	Phishing   string
-	Ransomware string
-	Password   string
+func (topic Topic) String() string {
+	return topics[topic-1]
 }
 
-func WhichSecurityEmail() {
-	switch Topics {
-	// case Topics.Whaling:
-	// 	fmt.Println("Whaling Topic")
+func WhichSecurityEmail(topic Topic) {
+	switch topic {
+	case PHISHING:
+		fmt.Println("Case Phishing")
+	case WHALING:
+		fmt.Println("Case Whaling")
+		SendWhalingEmail()
+	case RANSOMWARE:
+		fmt.Println("Case Ransomware")
+	case PASSWORD:
+		fmt.Println("Case Password")
+
 	}
 	fmt.Println("WIP")
 }
