@@ -56,10 +56,10 @@ var startdayCmd = &cobra.Command{
 			}
 		case "linux":
 			println("Linux ; )")
-			err1 := exec.Command("slack", "&").Run()
-			if err1 != nil {
-				log.Fatal(err1)
-			}
+			// err1 := exec.Command("slack", "&").Run()
+			// if err1 != nil {
+			// 	log.Fatal(err1)
+			// }
 			// fmt.Println("embed", eTest)
 			// Open the file.
 			// this is not relative to this file. it's the path from the root or the
