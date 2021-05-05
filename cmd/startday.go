@@ -3,7 +3,6 @@ package cmd
 import (
 	"bufio"
 	"fmt"
-	// "text/template"
 
 	// "io/fs"
 	"log"
@@ -45,6 +44,15 @@ var startdayCmd = &cobra.Command{
 			err1 := exec.Command("open", "-a", "slack").Run()
 			if err != nil || err1 != nil {
 				log.Fatal("error", err)
+			}
+			f, err := os.Open("/Users/jonathanpalacio/go/tabs/tabs.txt")
+			if err != nil {
+				log.Fatal(err)
+			}
+			scanner := bufio.NewScanner(f)
+			for scanner.Scan() {
+				line := scanner.Text()
+				browser.OpenURL(line)
 			}
 		case "linux":
 			println("Linux ; )")
