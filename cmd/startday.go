@@ -33,17 +33,17 @@ var startdayCmd = &cobra.Command{
 	that I use for work.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println("Good morning JP | I'm opening your tabs for work now.")
-		browser.OpenURL("https://calendar.google.com/calendar/b/1/r?tab=wc")
 		system := runtime.GOOS
 		switch system {
 		case "windows":
 			println("No Thank You, Switch to Linux ; )")
 		case "darwin":
 			println("Running on mac")
-			err := exec.Command("open", "-a", "mailspring").Run()
-			err1 := exec.Command("open", "-a", "slack").Run()
-			if err != nil || err1 != nil {
-				log.Fatal("error", err)
+			err := exec.Command("open", "-a", "/Applications/Firefox Developer Edition.app").Run()
+			err1 := exec.Command("open", "-a", "mailspring").Run()
+			err2 := exec.Command("open", "-a", "slack").Run()
+			if err != nil || err1 != nil || err2 != nil {
+				log.Fatal("error", err, err1, err2)
 			}
 			f, err := os.Open("/Users/jonathanpalacio/go/tabs/tabs.txt")
 			if err != nil {
@@ -56,6 +56,7 @@ var startdayCmd = &cobra.Command{
 			}
 		case "linux":
 			println("Linux ; )")
+			browser.OpenURL("https://calendar.google.com/calendar/b/1/r?tab=wc")
 			err1 := exec.Command("slack", "&").Run()
 			if err1 != nil {
 				log.Fatal(err1)
