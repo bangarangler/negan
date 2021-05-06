@@ -57,10 +57,10 @@ var startdayCmd = &cobra.Command{
 		case "linux":
 			println("Linux ; )")
 			browser.OpenURL("https://calendar.google.com/calendar/b/1/r?tab=wc")
-			err1 := exec.Command("slack", "&").Run()
-			if err1 != nil {
-				log.Fatal(err1)
-			}
+			// err1 := exec.Command("slack", "&").Run()
+			// if err1 != nil {
+			// 	log.Fatal(err1)
+			// }
 			// fmt.Println("embed", eTest)
 			// Open the file.
 			// this is not relative to this file. it's the path from the root or the
