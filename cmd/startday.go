@@ -56,12 +56,13 @@ var startdayCmd = &cobra.Command{
 			}
 		case "linux":
 			println("Linux ; )")
-			browser.OpenURL("https://calendar.google.com/calendar/b/1/r?tab=wc")
-			// err1 := exec.Command("slack", "&").Run()
-			// if err1 != nil {
-			// 	log.Fatal(err1)
-			// }
-			// fmt.Println("embed", eTest)
+			// nohup command >/dev/null 2>&1 &
+			err := exec.Command("slack").Start()
+			err1 := exec.Command("/usr/local/firefox/firefox-bin").Start()
+			err2 := exec.Command("mailspring").Start()
+			if err != nil || err1 != nil || err2 != nil {
+				log.Fatal(err, err1, err2)
+			}
 			// Open the file.
 			// this is not relative to this file. it's the path from the root or the
 			// path from where it will be ran
@@ -72,7 +73,6 @@ var startdayCmd = &cobra.Command{
 			scanner := bufio.NewScanner(f)
 			for scanner.Scan() {
 				line := scanner.Text()
-				// use browser to Open the url
 				browser.OpenURL(line)
 			}
 		default:
