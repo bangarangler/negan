@@ -40,7 +40,7 @@ var startdayCmd = &cobra.Command{
 		case "darwin":
 			println("Running on mac")
 			err := exec.Command("open", "-a", "/Applications/Firefox Developer Edition.app").Run()
-			err1 := exec.Command("open", "-a", "mailspring").Run()
+			err1 := exec.Command("open", "-a", "hey").Run()
 			err2 := exec.Command("open", "-a", "slack").Run()
 			if err != nil || err1 != nil || err2 != nil {
 				log.Fatal("error", err, err1, err2)
@@ -59,7 +59,7 @@ var startdayCmd = &cobra.Command{
 			// nohup command >/dev/null 2>&1 &
 			err := exec.Command("slack").Start()
 			err1 := exec.Command("/usr/local/firefox/firefox-bin").Start() // Firefox Developer Edition
-			err2 := exec.Command("mailspring").Start()
+			err2 := exec.Command("hey").Start()
 			// err := exec.Command("slack", "/usr/local/firefox/firefox-bin", "mailspring").Start()
 			if err != nil || err1 != nil || err2 != nil {
 				log.Fatal(err, err1, err2)
