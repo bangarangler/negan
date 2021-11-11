@@ -39,11 +39,13 @@ var startdayCmd = &cobra.Command{
 			println("No Thank You, Switch to Linux ; )")
 		case "darwin":
 			println("Running on mac")
-			err := exec.Command("open", "-a", "/Applications/Firefox Developer Edition.app").Run()
-			err1 := exec.Command("open", "-a", "hey").Run()
-			err2 := exec.Command("open", "-a", "slack").Run()
-			if err != nil || err1 != nil || err2 != nil {
-				log.Fatal("error", err, err1, err2)
+			var err error
+			err = exec.Command("open", "-a", "/Applications/Firefox Developer Edition.app").Run()
+			err = exec.Command("open", "-a", "hey").Run()
+			err = exec.Command("open", "-a", "slack").Run()
+			err = exec.Command("open", "-a", "/Applications/Microsoft Teams.app").Run()
+			if err != nil {
+				log.Fatal("error", err)
 			}
 			f, err := os.Open("/Users/jonathanpalacio/go/tabs/tabs.txt")
 			if err != nil {
